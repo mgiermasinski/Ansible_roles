@@ -1,0 +1,30 @@
+---
+# tasks file for user
+- name: group panda
+  group:
+    name: panda
+    gid: 1001
+    state: present
+
+- name: dodanie usera panda
+  user:
+    name: panda
+    group: users
+    groups:
+      - sudo
+      - panda
+    shell: /bin/bash
+    uid: 1001
+
+- name: klucz dla usera panda
+  ansible.posix.authorized_key:
+    user: panda
+    state: present
+    key: "{{ lookup('file', '/home/vagrant/.ssh/authorized_keys') }}"
+    path: /home/panda/.ssh/authorized_keys
+
+
+
+
+
+    
